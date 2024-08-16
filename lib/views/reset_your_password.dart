@@ -27,59 +27,64 @@ class _ResetYourPasswordState extends State<ResetYourPassword> {
           );
         }
         else if (state is AuthSuccess) {
-          AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10)
-            ),
-            title: const Icon(
-              Icons.check_circle_rounded,
-              size: 80,
-              color:AppColors.bluebgNavItem  ,
-            ),
-            content: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.03,
-              height: MediaQuery.of(context).size.height * 0.12,
-              child: const Column(
-                children: [
-                  SizedBox(height : 10),
-                  Text(
-                    "Successful",
-                    style: TextStyle(fontSize: 18),
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)
+                ),
+                title: const Icon(
+                  Icons.check_circle_rounded,
+                  size: 80,
+                  color:AppColors.bluebgNavItem  ,
+                ),
+                content: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.03,
+                  height: MediaQuery.of(context).size.height * 0.12,
+                  child: const Column(
+                    children: [
+                      SizedBox(height : 10),
+                      Text(
+                        "Successful",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      SizedBox(height : 10),
+                      Text(
+                        'Congratulations! Your password has been changed. Click continue to login',
+                        style: TextStyle(fontSize: 13),
+                      ),
+                    ],
                   ),
-                  SizedBox(height : 10),
-                  Text(
-                    'Congratulations! Your password has been changed. Click continue to login',
-                    style: TextStyle(fontSize: 13),
-                  ),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width : MediaQuery.of(context).size.width*0.6 ,
-                    child: FloatingActionButton.extended(
-                      onPressed: () {
-                        Get.offAllNamed('/login');
-                      },
-                      label: Text(
-                        "Continue",
-                        style: TextStyle(
-                          color: AppColors.white,
-                          fontSize: MediaQuery.of(context).size.width*0.04 ,
+                ),
+                actions: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width : MediaQuery.of(context).size.width*0.6 ,
+                        child: FloatingActionButton.extended(
+                          onPressed: () {
+                            Get.offAllNamed('/login');
+                          },
+                          label: Text(
+                            "Continue",
+                            style: TextStyle(
+                              color: AppColors.white,
+                              fontSize: MediaQuery.of(context).size.width*0.04 ,
+                            ),
+                          ),
+                          backgroundColor:AppColors.bluebgNavItem ,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6)
+                          ),
                         ),
-                      ),
-                      backgroundColor:AppColors.bluebgNavItem ,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6)
-                      ),
-                    ),
-                  )
+                      )
+                    ],
+                  ),
                 ],
-              ),
-            ],
+              );
+            },
           );
         }
         else if (state is AuthError) {

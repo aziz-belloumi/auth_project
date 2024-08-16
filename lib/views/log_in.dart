@@ -233,7 +233,7 @@ class _LogInState extends State<LogIn> {
                     ),
                     GestureDetector(
                       onTap: (){
-                        Get.toNamed('/test');
+                        //Get.toNamed('/test');
                       },
                       child: Text(
                         "Terms Of Use",

@@ -116,7 +116,6 @@ class MyApp extends StatelessWidget {
           get_package.GetPage(name: '/reset_password', page: () => ResetYourPassword()),
           get_package.GetPage(name: '/profile', page: () => ProfileView()),
           get_package.GetPage(name: '/contact', page: () => SelectContact()),
-          get_package.GetPage(name: '/test', page: () => Test()),
         ],
       ),
     );
