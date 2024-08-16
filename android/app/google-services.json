@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "709950791716",
+    "project_id": "tinder-f7f18",
+    "storage_bucket": "tinder-f7f18.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:709950791716:android:24c4708dba4a218523f8b1",
+        "android_client_info": {
+          "package_name": "com.convergeinnov.convergeimmob"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "709950791716-vfrlgfrcchuc8jcalh1gflrof7eshbsn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQuFJI-uMy7yqNauxF0iwyWgCDtiHjG1s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "709950791716-h46srqqc54vqnk714581n97vmspum0c1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "709950791716-etj7mjhfrcrc1p0r3iplospdfs7p25vs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.convergeinnov.convergeimmob"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
