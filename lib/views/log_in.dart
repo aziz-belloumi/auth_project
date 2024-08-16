@@ -231,15 +231,20 @@ class _LogInState extends State<LogIn> {
                         fontSize: MediaQuery.of(context).size.width * 0.0315,
                       ),
                     ),
-                    Text(
-                      "Terms Of Use",
-                      style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        decorationColor: const Color(0xFF1E3FE5),
-                        decorationThickness:
-                            MediaQuery.of(context).size.height * 0.003,
-                        color: const Color(0xFF1E3FE5),
-                        fontSize: MediaQuery.of(context).size.width * 0.03,
+                    GestureDetector(
+                      onTap: (){
+
+                      },
+                      child: Text(
+                        "Terms Of Use",
+                        style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          decorationColor: const Color(0xFF1E3FE5),
+                          decorationThickness:
+                              MediaQuery.of(context).size.height * 0.003,
+                          color: const Color(0xFF1E3FE5),
+                          fontSize: MediaQuery.of(context).size.width * 0.03,
+                        ),
                       ),
                     )
                   ],

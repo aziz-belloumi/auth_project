@@ -1,5 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:convergeimmob/authServices/bloc/log_out_cubit.dart';
+import 'package:convergeimmob/authServices/global_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:convergeimmob/constants/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -99,113 +102,287 @@ class _ProfileViewState extends State<ProfileView> {
           ),
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.only(
-            left: MediaQuery.of(context).size.width*0.06,
-            right: MediaQuery.of(context).size.width*0.06
-        ),
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(
+              left: MediaQuery.of(context).size.width*0.06,
+              right: MediaQuery.of(context).size.width*0.06
+          ),
+          child: BlocListener<LogOutCubit,AuthState>(
+            listener: (context,state){
+              if (state is AuthLoading) {
+                showDialog(
+                  context: context,
+                  builder: (context) => const Center(child: CircularProgressIndicator()),
+                );
+              }
+              else if (state is AuthInitial) {
+                Get.offAllNamed('/login');
+              }
+              else if (state is AuthError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(state.errorMessage)),
+                );
+              }
+            },
+            child: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircleAvatar(
-                        radius: size.width*0.16,
-                        backgroundImage: profilePicture != null && profilePicture!.isNotEmpty
-                            ? NetworkImage(profilePicture!)
-                            : const NetworkImage("https://i.pinimg.com/736x/09/21/fc/0921fc87aa989330b8d403014bf4f340.jpg"),
-                      ),
-                      Text(
-                        "$firstName",
-                        style: const TextStyle(color: AppColors.black,fontSize:20 ,fontWeight: FontWeight.w500),
-                      ),
-                      Text(
-                        "$email",
-                        style: const TextStyle(color: AppColors.black , fontSize:15),
-                      ),
+                      Column(
+                        children: [
+                          CircleAvatar(
+                            radius: size.width*0.16,
+                            backgroundImage: profilePicture != null && profilePicture!.isNotEmpty
+                                ? NetworkImage(profilePicture!)
+                                : const NetworkImage("https://i.pinimg.com/736x/09/21/fc/0921fc87aa989330b8d403014bf4f340.jpg"),
+                          ),
+                          Text(
+                            "$firstName",
+                            style: const TextStyle(color: AppColors.black,fontSize:20 ,fontWeight: FontWeight.w500),
+                          ),
+                          Text(
+                            "$email",
+                            style: const TextStyle(color: AppColors.black , fontSize:15),
+                          ),
+                        ],
+                      )
                     ],
-                  )
-                ],
-              ),
-              SizedBox(height: size.height*0.06,),
-              const Text(
-                "Personal Data",
-                style: const TextStyle(color: AppColors.black,fontSize:18 ,fontWeight: FontWeight.w500)
-              ) ,
-              Form(
-                child: Column(
-                  children: [
-                    TextFormField(
-                      decoration: InputDecoration(
-                        hintText: "$firstName"
-                      ),
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                          hintText: "$email"
-                      ),
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                          hintText: "$phoneNumber"
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: size.height * 0.03,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: FloatingActionButton.extended(
-                      elevation: 0.0,
-                      backgroundColor: AppColors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                        side: BorderSide(
-                          color: AppColors.bluebgNavItem,
-                          width: size.width*0.005,
+                  ),
+                  SizedBox(height: size.height*0.06,),
+                  const Text(
+                    "Personal Data",
+                    style: TextStyle(color: AppColors.black,fontSize:18 ,fontWeight: FontWeight.w500)
+                  ) ,
+                  Form(
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          decoration: InputDecoration(
+                            hintText: "$firstName"
+                          ),
                         ),
-                      ),
-                      label: const Text(
-                        "Edit Information", style: TextStyle(color: AppColors.bluebgNavItem),
-                      ),
-                      onPressed:(){},
+                        TextFormField(
+                          decoration: InputDecoration(
+                              hintText: "$email"
+                          ),
+                        ),
+                        TextFormField(
+                          decoration: InputDecoration(
+                              hintText: "$phoneNumber"
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-              SizedBox(height: size.height * 0.03,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: FloatingActionButton.extended(
-                      elevation: 0.0,
-                      backgroundColor: AppColors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                        side: BorderSide(
-                          color: AppColors.bluebgNavItem,
-                          width: size.width*0.005,
+                  SizedBox(height: size.height * 0.03,),
+                  SizedBox(
+                    width: size.width ,
+                    child: Expanded(
+                      child: FloatingActionButton.extended(
+                        elevation: 0.0,
+                        backgroundColor: AppColors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          side: BorderSide(
+                            color: AppColors.bluebgNavItem,
+                            width: size.width*0.005,
+                          ),
                         ),
+                        label: const Text(
+                          "Edit Information", style: TextStyle(color: AppColors.bluebgNavItem),
+                        ),
+                        onPressed:(){},
                       ),
-                      label: const Text(
-                        "Change Profile Picture", style: TextStyle(color: AppColors.bluebgNavItem),
-                      ),
-                      onPressed:(){
-                        _changeProfilePicture();
-                      },
                     ),
                   ),
+                  SizedBox(height: size.height * 0.02,),
+                  SizedBox(
+                    width: size.width ,
+                    child: Expanded(
+                      child: FloatingActionButton.extended(
+                        elevation: 0.0,
+                        backgroundColor: AppColors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          side: BorderSide(
+                            color: AppColors.bluebgNavItem,
+                            width: size.width*0.005,
+                          ),
+                        ),
+                        label: const Text(
+                          "Change Profile Picture", style: TextStyle(color: AppColors.bluebgNavItem),
+                        ),
+                        onPressed:(){
+                          _changeProfilePicture();
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: size.height * 0.02,),
+                  Divider(
+                    color: AppColors.black, // Color of the line
+                    thickness: size.width*0.003,        // Thickness of the line// Right padding
+                  ),
+                  SizedBox(height: size.height * 0.02,),
+                  const Text(
+                      "Personal Data",
+                      style: TextStyle(color: AppColors.black,fontSize:18 ,fontWeight: FontWeight.w500)
+                  ) ,
+                  Form(
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          decoration: const InputDecoration(
+                              hintText: "Current Plan"
+                          ),
+                        ),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                              hintText: "Renewal Date"
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: size.height * 0.03,),
+                  SizedBox(
+                    width: size.width ,
+                    child: Expanded(
+                      child: FloatingActionButton.extended(
+                        elevation: 0.0,
+                        backgroundColor: AppColors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          side: BorderSide(
+                            color: AppColors.bluebgNavItem,
+                            width: size.width*0.005,
+                          ),
+                        ),
+                        label: const Text(
+                          "Manage Subscription", style: TextStyle(color: AppColors.bluebgNavItem),
+                        ),
+                        onPressed:(){},
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: size.height * 0.02,),
+                  Divider(
+                    color: AppColors.black, // Color of the line
+                    thickness: size.width*0.003,        // Thickness of the line// Right padding
+                  ),
+                  SizedBox(height: size.height * 0.01,),
+                  const Text(
+                      "Legal",
+                      style: TextStyle(color: AppColors.black,fontSize:18 ,fontWeight: FontWeight.w500)
+                  ),
+                  SizedBox(height: size.height * 0.02,),
+                  GestureDetector(
+                    onTap: (){},
+                    child: const Text(
+                      "Terms of Service"
+                    ),
+                  ),
+                  Divider(
+                    color: AppColors.greyDescribePropertyItem, // Color of the line
+                    thickness: size.width*0.003,        // Thickness of the line// Right padding
+                  ),
+                  GestureDetector(
+                    onTap: (){},
+                    child: const Text(
+                        "Privacy Policy"
+                    ),
+                  ),
+                  Divider(
+                    color: AppColors.greyDescribePropertyItem, // Color of the line
+                    thickness: size.width*0.003,        // Thickness of the line// Right padding
+                  ),
+                  SizedBox(height: size.height * 0.02,),
+                  Divider(
+                    color: AppColors.black, // Color of the line
+                    thickness: size.width*0.003,        // Thickness of the line// Right padding
+                  ),
+                  SizedBox(height: size.height * 0.01,),
+                  const Text(
+                      "Need Help?",
+                      style: TextStyle(color: AppColors.black,fontSize:18 ,fontWeight: FontWeight.w500)
+                  ),
+                  SizedBox(height: size.height * 0.03,),
+                  SizedBox(
+                    width: size.width ,
+                    child: Expanded(
+                      child: FloatingActionButton.extended(
+                        elevation: 0.0,
+                        backgroundColor: AppColors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          side: BorderSide(
+                            color: AppColors.bluebgNavItem,
+                            width: size.width*0.005,
+                          ),
+                        ),
+                        label: const Text(
+                          "Contact Support", style: TextStyle(color: AppColors.bluebgNavItem),
+                        ),
+                        onPressed:(){},
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: size.height * 0.02,),
+                  SizedBox(
+                    width: size.width ,
+                    child: Expanded(
+                      child: FloatingActionButton.extended(
+                        elevation: 0.0,
+                        backgroundColor: AppColors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          side: BorderSide(
+                            color: AppColors.bluebgNavItem,
+                            width: size.width*0.005,
+                          ),
+                        ),
+                        label: const Text(
+                          "FAQ", style: TextStyle(color: AppColors.bluebgNavItem),
+                        ),
+                        onPressed:(){},
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: size.height * 0.02,),
+                  SizedBox(
+                    width: size.width ,
+                    child: Expanded(
+                      child: FloatingActionButton.extended(
+                        icon: const Icon(
+                          Icons.logout,
+                          color: AppColors.white,
+                        ),
+                        elevation: 0.0,
+                        backgroundColor: AppColors.bluebgNavItem,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          side: BorderSide(
+                            color: AppColors.bluebgNavItem,
+                            width: size.width*0.005,
+                          ),
+                        ),
+                        label: const Text(
+                          "Log out", style: TextStyle(color: AppColors.white),
+                        ),
+                        onPressed:(){
+                          context.read<LogOutCubit>().logOut() ;
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: size.height * 0.05,),
                 ],
-              )
-            ],
+              ),
+            ),
           ),
         ),
       ),
