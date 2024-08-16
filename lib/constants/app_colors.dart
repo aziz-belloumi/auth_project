@@ -9,6 +9,7 @@ class AppColors {
   static const Color whiteBgScrolledlist = Color(0xFFFCFCFD);
   static const Color bluePrimaryHigher = Color(0xFF2128B2);
   static const Color bluebgNavItem = Color(0xFF3742FA);
+  static const Color blueLight = Color(0xFFC0D5FF);
   static const Color gNavBgColor = Color(0xFFDCE9FF);
   static const Color yellow = Color(0xFFFABC60);
 

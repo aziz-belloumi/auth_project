@@ -5,14 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
-class ForgotPasswordEmail extends StatefulWidget {
-  const ForgotPasswordEmail({super.key});
+class ForgotPassword extends StatefulWidget {
+  const ForgotPassword({super.key});
 
   @override
-  State<ForgotPasswordEmail> createState() => _ForgotPasswordEmailState();
+  State<ForgotPassword> createState() => _ForgotPasswordState();
 }
 
-class _ForgotPasswordEmailState extends State<ForgotPasswordEmail> {
+class _ForgotPasswordState extends State<ForgotPassword> {
+
+  String inputText = Get.arguments["inputText"];
+
+
   TextEditingController emailController = TextEditingController() ;
   @override
   Widget build(BuildContext context) {
@@ -52,28 +56,14 @@ class _ForgotPasswordEmailState extends State<ForgotPasswordEmail> {
             child: Column(
               children: [
                 SizedBox(height: MediaQuery.of(context).size.width * 0.2,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height*0.25 ,
-                      width: MediaQuery.of(context).size.width*0.5,
-                      child: Image.asset(
-                        "assets/icons/forgot_pass.png",
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: MediaQuery.of(context).size.width * 0.2,),
-                const Text("Please Enter An Existing Email"),
+                Text("Please Enter the $inputText you used when you joined and we'll send you instructions to reset your password"),
                 SizedBox(height: MediaQuery.of(context).size.width * 0.1,),
                 Form(
                     child: TextFormField(
                       controller: emailController,
                       decoration: textInputDecoration.copyWith(
                         prefixIcon: const Icon(Icons.email_outlined),
-                        hintText: "Email",
+                        hintText: inputText,
                       ),
                     )
                 ),
@@ -89,7 +79,7 @@ class _ForgotPasswordEmailState extends State<ForgotPasswordEmail> {
                         borderRadius: BorderRadius.circular(
                             4.0), // Adjust the radius as needed
                       ),
-                      child: const Text("Send The Code",
+                      child: const Text("Send",
                           style: TextStyle(
                               color: Color(0xFF646469), fontFamily: 'Inter')),
                       onPressed: () {

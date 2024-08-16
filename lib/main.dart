@@ -15,12 +15,13 @@ import 'package:convergeimmob/map_screen.dart';
 import 'package:convergeimmob/shared/routing.dart';
 import 'package:convergeimmob/views/create_password.dart';
 import 'package:convergeimmob/views/forgot_password_code.dart';
-import 'package:convergeimmob/views/forgot_password_email.dart';
+import 'package:convergeimmob/views/forgot_password.dart';
 import 'package:convergeimmob/views/log_in.dart';
 import 'package:convergeimmob/views/other_sign_in_data.dart';
 import 'package:convergeimmob/views/otp_verification.dart';
 import 'package:convergeimmob/views/profile_view.dart';
 import 'package:convergeimmob/views/reset_your_password.dart';
+import 'package:convergeimmob/views/select_contact.dart';
 import 'package:convergeimmob/views/sign_in.dart';
 import 'package:convergeimmob/views/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -109,10 +110,11 @@ class MyApp extends StatelessWidget {
           get_package.GetPage(name: '/filter_screen', page: () => FilterScreen()),
           get_package.GetPage(name: '/create_property', page: () => CreatePropertyScreen()),
           get_package.GetPage(name: '/home_screen', page: () => HomeScreen()),
-          get_package.GetPage(name: '/forgot_password_email', page: () => ForgotPasswordEmail()),
+          get_package.GetPage(name: '/forgot_password', page: () => ForgotPassword()),
           get_package.GetPage(name: '/forgot_password_code', page: () => ForgotPasswordCode()),
           get_package.GetPage(name: '/reset_password', page: () => ResetYourPassword()),
           get_package.GetPage(name: '/profile', page: () => ProfileView()),
+          get_package.GetPage(name: '/contact', page: () => SelectContact()),
         ],
       ),
     );
