@@ -17,7 +17,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   String inputText = Get.arguments["inputText"];
 
 
-  TextEditingController emailController = TextEditingController() ;
+  TextEditingController fieldController = TextEditingController() ;
   @override
   Widget build(BuildContext context) {
     return BlocListener<ForgotPasswordCubit,AuthState>(
@@ -30,7 +30,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         }
         else if (state is AuthSuccess) {
           Get.toNamed('/forgot_password_code' , arguments: {
-            "email" : emailController.text,
+            "field" : fieldController.text,
             "token" : context.read<ForgotPasswordCubit>().token
           });
         }
@@ -60,9 +60,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 SizedBox(height: MediaQuery.of(context).size.width * 0.1,),
                 Form(
                     child: TextFormField(
-                      controller: emailController,
+                      controller: fieldController,
                       decoration: textInputDecoration.copyWith(
-                        prefixIcon: const Icon(Icons.email_outlined),
+                        prefixIcon: inputText == "Email" ? const Icon(Icons.email_outlined) : const Icon(Icons.phone_outlined),
                         hintText: inputText,
                       ),
                     )
@@ -83,7 +83,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           style: TextStyle(
                               color: Color(0xFF646469), fontFamily: 'Inter')),
                       onPressed: () {
-                        context.read<ForgotPasswordCubit>().forgotPassword(emailController.text);
+                        context.read<ForgotPasswordCubit>().forgotPassword(fieldController.text);
                       },
                     )
                 ),

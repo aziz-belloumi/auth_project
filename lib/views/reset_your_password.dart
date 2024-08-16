@@ -1,5 +1,6 @@
 import 'package:convergeimmob/authServices/bloc/reset_cubit.dart';
 import 'package:convergeimmob/authServices/global_state.dart';
+import 'package:convergeimmob/constants/app_colors.dart';
 import 'package:convergeimmob/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +27,60 @@ class _ResetYourPasswordState extends State<ResetYourPassword> {
           );
         }
         else if (state is AuthSuccess) {
-          Get.offAllNamed('/login');
+          AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10)
+            ),
+            title: const Icon(
+              Icons.check_circle_rounded,
+              size: 80,
+              color:AppColors.bluebgNavItem  ,
+            ),
+            content: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.03,
+              height: MediaQuery.of(context).size.height * 0.12,
+              child: const Column(
+                children: [
+                  SizedBox(height : 10),
+                  Text(
+                    "Successful",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  SizedBox(height : 10),
+                  Text(
+                    'Congratulations! Your password has been changed. Click continue to login',
+                    style: TextStyle(fontSize: 13),
+                  ),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width : MediaQuery.of(context).size.width*0.6 ,
+                    child: FloatingActionButton.extended(
+                      onPressed: () {
+                        Get.offAllNamed('/login');
+                      },
+                      label: Text(
+                        "Continue",
+                        style: TextStyle(
+                          color: AppColors.white,
+                          fontSize: MediaQuery.of(context).size.width*0.04 ,
+                        ),
+                      ),
+                      backgroundColor:AppColors.bluebgNavItem ,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6)
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ],
+          );
         }
         else if (state is AuthError) {
           ScaffoldMessenger.of(context).showSnackBar(

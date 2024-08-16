@@ -15,7 +15,7 @@ class ForgotPasswordCode extends StatefulWidget {
 }
 
 class _ForgotPasswordCodeState extends State<ForgotPasswordCode> {
-  String? email = Get.arguments["email"];
+  String? field = Get.arguments["field"];
   String? token = Get.arguments["token"];
 
   TextEditingController firstController = TextEditingController();
@@ -61,7 +61,7 @@ class _ForgotPasswordCodeState extends State<ForgotPasswordCode> {
             child: Column(
               children: [
                 SizedBox(height: MediaQuery.of(context).size.width * 0.2,),
-                Text("Code has been sent to $email"),
+                Text("Code has been sent to $field"),
                 SizedBox(height: MediaQuery.of(context).size.width * 0.2,),
                 Form(
                   child: Row(

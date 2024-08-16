@@ -191,7 +191,7 @@ class _LogInState extends State<LogIn> {
                       ),
                       child: GestureDetector(
                         onTap: (){
-                          Get.toNamed('/forgot_password_email');
+                          Get.toNamed('/contact');
                         },
                         child: const Text(
                           "Forgot Password ?",
@@ -233,7 +233,7 @@ class _LogInState extends State<LogIn> {
                     ),
                     GestureDetector(
                       onTap: (){
-                        Get.toNamed('/contact');
+                        Get.toNamed('/test');
                       },
                       child: Text(
                         "Terms Of Use",
