@@ -15,7 +15,7 @@ class LogInCubit extends Cubit<AuthState>{
         "password": password
       };
       var response = await http.post(
-          Uri.parse("http://192.168.40.133:4050/api/auth/signin"),
+          Uri.parse("http://10.0.2.2:4050/api/auth/signin"),
           headers: { "Content-Type": "application/json"},
           body: jsonEncode(reqBody)
       );
@@ -27,9 +27,15 @@ class LogInCubit extends Cubit<AuthState>{
         await prefs.setString('token', myToken);// storing the token in preferences
         emit(AuthSuccess());
       }
+      if (response.statusCode == 404) {
+        emit(AuthError('Error : This account doesn\'t exists'));
+      }
+      if (response.statusCode == 401) {
+        emit(AuthError('Error : Wrong password , try again'));
+      }
     }
     catch (e) {
-      emit(AuthError('Sign-up failed: $e'));
+      emit(AuthError('Error : $e'));
     }
   }
 }

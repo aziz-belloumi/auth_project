@@ -2,6 +2,7 @@ import 'package:convergeimmob/authServices/bloc/facebook_cubit.dart';
 import 'package:convergeimmob/authServices/bloc/google_cubit.dart';
 import 'package:convergeimmob/authServices/bloc/log_in_cubit.dart';
 import 'package:convergeimmob/authServices/global_state.dart';
+import 'package:convergeimmob/constants/app_colors.dart';
 import 'package:convergeimmob/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,14 +45,16 @@ class _LogInState extends State<LogIn> {
             );
           }
           else if (state is AuthSuccess) {
-            // if(checkStatus == false){
-            //   prefs.clear();
-            // }
             Get.offAllNamed('/home_screen');
           }
           else if (state is AuthError) {
+            Navigator.of(context).pop();
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.errorMessage)),
+              SnackBar(
+                content: Text(state.errorMessage),
+                duration: const Duration(seconds: 3),
+                backgroundColor: AppColors.bluebgNavItem,
+              ),
             );
           }
         }),
@@ -64,14 +67,16 @@ class _LogInState extends State<LogIn> {
             );
           }
           else if (state is AuthSuccess) {
-            // if(checkStatus == false){
-            //   prefs.clear();
-            // }
             Get.offAllNamed('/home_screen');
           }
           else if (state is AuthError) {
+            Navigator.of(context).pop();
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.errorMessage)),
+              SnackBar(
+                content: Text(state.errorMessage),
+                duration: const Duration(seconds: 3),
+                backgroundColor: AppColors.bluebgNavItem,
+              ),
             );
           }
         }),
@@ -85,8 +90,13 @@ class _LogInState extends State<LogIn> {
           else if (state is AuthSuccess) {
             Get.offAllNamed('/home_screen');
           } else if (state is AuthError) {
+            Navigator.of(context).pop();
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.errorMessage)),
+              SnackBar(
+                content: Text(state.errorMessage),
+                duration: const Duration(seconds: 3),
+                backgroundColor: AppColors.bluebgNavItem,
+              ),
             );
           }
         }),
@@ -202,18 +212,22 @@ class _LogInState extends State<LogIn> {
                 ),
                 Container(
                     margin: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.025,
+                      top: MediaQuery.of(context).size.height * 0.015,
                     ),
                     width: MediaQuery.of(context).size.width * 0.9,
                     child: FloatingActionButton(
                       hoverColor: Colors.red,
-                      backgroundColor: const Color(0xFF96979B),
+                      backgroundColor: (emailController.text.isNotEmpty && passwordController.text.isNotEmpty)? AppColors.bluebgNavItem : AppColors.greyDescribePropertyItem,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(4.0),
                       ),
-                      child: const Text("Continue",
+                      child: Text(
+                          "Continue",
                           style: TextStyle(
-                              color: Color(0xFF646469), fontFamily: 'Inter')),
+                              color: (emailController.text.isNotEmpty && passwordController.text.isNotEmpty)? AppColors.white : AppColors.grey,
+                              fontFamily: 'Inter'
+                          )
+                      ),
                       onPressed: () {
                         context.read<LogInCubit>().logIn(emailController.text, passwordController.text, prefs);
                       },
@@ -233,7 +247,7 @@ class _LogInState extends State<LogIn> {
                     ),
                     GestureDetector(
                       onTap: (){
-                        //Get.toNamed('/test');
+                        // terms of use page
                       },
                       child: Text(
                         "Terms Of Use",

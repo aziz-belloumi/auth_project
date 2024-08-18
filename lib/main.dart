@@ -24,7 +24,6 @@ import 'package:convergeimmob/views/reset_your_password.dart';
 import 'package:convergeimmob/views/select_contact.dart';
 import 'package:convergeimmob/views/sign_in.dart';
 import 'package:convergeimmob/views/splash_screen.dart';
-import 'package:convergeimmob/views/test.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' as get_package;

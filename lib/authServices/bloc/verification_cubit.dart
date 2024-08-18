@@ -16,7 +16,7 @@ class VerificationCubit extends Cubit<AuthState>{
         "token" : token
       };
       var response = await http.post(
-          Uri.parse("http://192.168.40.133:4050/api/auth/verification"),
+          Uri.parse("http://10.0.2.2:4050/api/auth/verification"),
           headers: { "Content-Type": "application/json"},
           body: jsonEncode(reqBody)
       );

@@ -20,7 +20,7 @@ class SignUpCubit extends Cubit<AuthState> {
         "lat" : lat ,
         "lng" : lng
       } ;
-      await http.post(Uri.parse("http://192.168.40.133:4050/api/auth/signup"),
+      await http.post(Uri.parse("http://10.0.2.2:4050/api/auth/signup"),
           headers: { "Content-Type" : "application/json"},
           body: jsonEncode(reqBody)
       );

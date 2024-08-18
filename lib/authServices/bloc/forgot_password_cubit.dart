@@ -13,7 +13,7 @@ class ForgotPasswordCubit extends Cubit<AuthState>{
         "email" : email
       };
       var response = await http.post(
-          Uri.parse("http://192.168.40.133:4050/api/auth/forgot-password"),
+          Uri.parse("http://10.0.2.2:4050/api/auth/forgot-password"),
           headers: { "Content-Type": "application/json"},
           body: jsonEncode(reqBody)
       );

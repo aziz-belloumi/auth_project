@@ -20,10 +20,8 @@ class FacebookCubit extends Cubit<AuthState> {
         final OAuthCredential credential = FacebookAuthProvider.credential(result.accessToken!.tokenString);
         final UserCredential userCredential = await _auth.signInWithCredential(credential);
         final currentUser = userCredential.user;
-
-        // Send user data to your backend
         final response = await http.post(
-          Uri.parse("http://192.168.40.133:4050/api/auth/facebook"),
+          Uri.parse("http://10.0.2.2:4050/api/auth/facebook"),
           headers: { "Content-Type": "application/json" },
           body: jsonEncode({
             'email': currentUser?.email ?? '',
@@ -32,21 +30,19 @@ class FacebookCubit extends Cubit<AuthState> {
             'admin': false
           }),
         );
-
         if (response.statusCode == 200) {
           final responseData = jsonDecode(response.body);
           final SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString("token", responseData['token']);
           emit(AuthSuccess());
-        } else {
-          final errorMessage = response.body.isNotEmpty ? jsonDecode(response.body)['error'] : response.reasonPhrase;
-          emit(AuthError('Auth failed: $errorMessage'));
         }
-      } else {
+      }
+      else {
         emit(AuthError(result.message ?? 'Facebook sign-in failed'));
       }
-    } catch (err) {
-      emit(AuthError('Auth error occurred: $err'));
+    }
+    catch (err) {
+      emit(AuthError('Error : You have already signed in with Google'));
     }
   }
 }
