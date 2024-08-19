@@ -247,7 +247,7 @@ class _LogInState extends State<LogIn> {
                     ),
                     GestureDetector(
                       onTap: (){
-                        // terms of use page
+                        //Get.toNamed('/reset_password');
                       },
                       child: Text(
                         "Terms Of Use",

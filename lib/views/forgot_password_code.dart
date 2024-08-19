@@ -1,6 +1,7 @@
 import 'package:convergeimmob/authServices/bloc/forgot_password_cubit.dart';
 import 'package:convergeimmob/authServices/bloc/verification_cubit.dart';
 import 'package:convergeimmob/authServices/global_state.dart';
+import 'package:convergeimmob/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,8 +40,13 @@ class _ForgotPasswordCodeState extends State<ForgotPasswordCode> {
           });
         }
         else if (state is AuthError) {
+          Navigator.of(context).pop();
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.errorMessage)),
+            SnackBar(
+              content: Text(state.errorMessage),
+              duration: const Duration(seconds: 2),
+              backgroundColor: AppColors.bluebgNavItem,
+            ),
           );
         }
       },

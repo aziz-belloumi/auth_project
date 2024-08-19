@@ -15,7 +15,13 @@ class ResetYourPassword extends StatefulWidget {
 
 class _ResetYourPasswordState extends State<ResetYourPassword> {
   String? id = Get.arguments["id"];
-  TextEditingController passwordController = TextEditingController() ;
+  TextEditingController firstPasswordController = TextEditingController() ;
+  TextEditingController secondPasswordController = TextEditingController() ;
+  GlobalKey<FormState> password = GlobalKey();
+
+  bool firstPasswordStatus = true;
+  bool secondPasswordStatus = true;
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<ResetPasswordCubit,AuthState>(
@@ -108,7 +114,7 @@ class _ResetYourPasswordState extends State<ResetYourPassword> {
             ),
             child: Column(
               children: [
-                SizedBox(height: MediaQuery.of(context).size.width * 0.2,),
+                SizedBox(height: MediaQuery.of(context).size.width * 0.05,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -122,13 +128,75 @@ class _ResetYourPasswordState extends State<ResetYourPassword> {
                     ),
                   ],
                 ),
+                SizedBox(height: MediaQuery.of(context).size.width * 0.05,),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text('Create Your New Password'),
+                  ],
+                ),
+                SizedBox(height: MediaQuery.of(context).size.width * 0.05,),
                 Form(
-                    child: TextFormField(
-                      controller: passwordController,
-                      decoration: textInputDecoration.copyWith(
-                        prefixIcon: const Icon(Icons.lock_outline),
-                        hintText: "Password",
-                      ),
+                  key: password,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: firstPasswordController,
+                          validator: (val) {
+                            if (val!.isEmpty) {
+                              return "please enter a password";
+                            }
+                            if (val.length < 6) {
+                              return "the password must at least contain 6 characters";
+                            }
+                            else {
+                              return null;
+                            }
+                          },
+                          obscureText: firstPasswordStatus,
+                          decoration: textInputDecoration.copyWith(
+                            prefixIcon: const Icon(Icons.lock_outline),
+                            hintText: "Password",
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  firstPasswordStatus = !firstPasswordStatus;
+                                });
+                              },
+                              icon: firstPasswordStatus == true ? const Icon(Icons.visibility_off_outlined) : const Icon(Icons.remove_red_eye_outlined),
+                            ),
+
+                          ),
+                        ),
+                        SizedBox(height: MediaQuery.of(context).size.height*0.02,),
+                        TextFormField(
+                          controller: secondPasswordController,
+                          validator: (val) {
+                            if (val!.isEmpty) {
+                              return "please enter a password";
+                            }
+                            if (val.length < 6) {
+                              return "the password must at least contain 6 characters";
+                            }
+                            else {
+                              return null;
+                            }
+                          },
+                          obscureText: secondPasswordStatus,
+                          decoration: textInputDecoration.copyWith(
+                            prefixIcon: const Icon(Icons.lock_outline),
+                            hintText: "Repeat Password",
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  secondPasswordStatus = !secondPasswordStatus;
+                                });
+                              },
+                              icon: secondPasswordStatus == true ? const Icon(Icons.visibility_off_outlined) : const Icon(Icons.remove_red_eye_outlined),
+                            ),
+                          ),
+                        ),
+                      ],
                     )
                 ),
                 SizedBox(height: MediaQuery.of(context).size.width * 0.1,),
@@ -139,18 +207,61 @@ class _ResetYourPasswordState extends State<ResetYourPassword> {
                     width: MediaQuery.of(context).size.width * 0.9,
                     child: FloatingActionButton(
                       hoverColor: Colors.red,
-                      backgroundColor: const Color(0xFF96979B),
+                      backgroundColor: (firstPasswordController.text.isNotEmpty && secondPasswordController.text.isNotEmpty)? AppColors.bluebgNavItem : AppColors.greyDescribePropertyItem,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             4.0), // Adjust the radius as needed
                       ),
-                      child: const Text("Submit",
+                      child: Text(
+                          "Submit",
                           style: TextStyle(
-                              color: Color(0xFF646469), fontFamily: 'Inter')),
+                              color: (firstPasswordController.text.isNotEmpty && secondPasswordController.text.isNotEmpty)? AppColors.white : AppColors.grey,
+                              fontFamily: 'Inter')),
                       onPressed: () {
-                        context.read<ResetPasswordCubit>().resetPassword(passwordController.text, id!);
+                        if(password.currentState!.validate()){
+                          if(firstPasswordController.text == secondPasswordController.text){
+                            context.read<ResetPasswordCubit>().resetPassword(secondPasswordController.text, id!);
+                          }
+                          else{
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('The passwords do not match'),
+                                duration: Duration(seconds: 3),
+                                backgroundColor: AppColors.bluebgNavItem,
+                              ),
+                            );
+                          }
+                        }
                       },
                     )
+                ),
+                SizedBox(height: MediaQuery.of(context).size.width * 0.03,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "By tapping Continue, I accept HomeFind's ",
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * 0.0315,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: (){
+                        //Get.toNamed('/reset_password');
+                      },
+                      child: Text(
+                        "Terms Of Use",
+                        style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          decorationColor: const Color(0xFF1E3FE5),
+                          decorationThickness:
+                          MediaQuery.of(context).size.height * 0.003,
+                          color: const Color(0xFF1E3FE5),
+                          fontSize: MediaQuery.of(context).size.width * 0.03,
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ],
             ),

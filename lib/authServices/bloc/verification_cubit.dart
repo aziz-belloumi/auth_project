@@ -25,6 +25,9 @@ class VerificationCubit extends Cubit<AuthState>{
         id = jsonResponse["id"];
         emit(AuthSuccess());
       }
+      else{
+        emit(AuthError("Wrong code"));
+      }
     }
     catch(e){
       emit(AuthError(e.toString()));

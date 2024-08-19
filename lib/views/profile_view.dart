@@ -52,7 +52,7 @@ class _ProfileViewState extends State<ProfileView> {
 
     if (image != null) {
       File imageFile = File(image.path);
-      String uploadUrl = 'http://192.168.40.133:4050/api/auth/upload-picture'; // Replace with your actual backend URL
+      String uploadUrl = 'http://10.0.2.2:4050/api/auth/upload-picture'; // Replace with your actual backend URL
 
       try {
         var request = http.MultipartRequest('POST', Uri.parse(uploadUrl));
