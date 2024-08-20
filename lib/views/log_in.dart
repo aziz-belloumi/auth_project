@@ -45,7 +45,7 @@ class _LogInState extends State<LogIn> {
             );
           }
           else if (state is AuthSuccess) {
-            Get.offAllNamed('/home_screen');
+            Get.offAllNamed('/home');
           }
           else if (state is AuthError) {
             Navigator.of(context).pop();
@@ -67,7 +67,7 @@ class _LogInState extends State<LogIn> {
             );
           }
           else if (state is AuthSuccess) {
-            Get.offAllNamed('/home_screen');
+            Get.offAllNamed('/home');
           }
           else if (state is AuthError) {
             Navigator.of(context).pop();
@@ -88,7 +88,7 @@ class _LogInState extends State<LogIn> {
             );
           }
           else if (state is AuthSuccess) {
-            Get.offAllNamed('/home_screen');
+            Get.offAllNamed('/home');
           } else if (state is AuthError) {
             Navigator.of(context).pop();
             ScaffoldMessenger.of(context).showSnackBar(
@@ -116,7 +116,7 @@ class _LogInState extends State<LogIn> {
                   children: [
                     TextButton(
                       onPressed: () {
-                        Get.offNamed('/home_screen');
+                        Get.offNamed('/home');
                       },
                       child: const Text(
                         "skip",

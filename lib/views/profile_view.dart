@@ -52,7 +52,7 @@ class _ProfileViewState extends State<ProfileView> {
 
     if (image != null) {
       File imageFile = File(image.path);
-      String uploadUrl = 'http://10.0.2.2:4050/api/auth/upload-picture'; // Replace with your actual backend URL
+      String uploadUrl = 'http://10.0.2.2:4050/api/userData/upload-picture'; // Replace with your actual backend URL
 
       try {
         var request = http.MultipartRequest('POST', Uri.parse(uploadUrl));
@@ -68,7 +68,6 @@ class _ProfileViewState extends State<ProfileView> {
         );
         request.files.add(multipartFile);
         var response = await request.send();
-
         if (response.statusCode == 200) {
           final responseBody = await response.stream.bytesToString();
           final Map<String, dynamic> responseJson = jsonDecode(responseBody);
@@ -95,7 +94,7 @@ class _ProfileViewState extends State<ProfileView> {
       appBar: AppBar(
         leading: GestureDetector(
           onTap: (){
-            Get.offAllNamed("/home_screen");
+            Get.offAllNamed("/home");
           },
           child: const Icon(
             Icons.arrow_back

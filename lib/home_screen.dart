@@ -60,7 +60,18 @@ class _HomeScreenState extends State<HomeScreen> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            padding: EdgeInsets.symmetric(horizontal:size.width*0.05),
+              onPressed: (){},
+              icon: Icon(
+                Icons.notifications_none_outlined,
+                size: size.width * 0.07,
+              )
+          )
+        ],
+      ),
       body: BlocListener<LogOutCubit,AuthState>(
         listener: (context,state){
           if (state is AuthLoading) {
@@ -397,272 +408,281 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 SizedBox(height : size.height * 0.03,),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.home_outlined,
-                      color: AppColors.white,
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.home_outlined,
+                              color: AppColors.white,
+                            ),
+                            SizedBox(
+                              width: size.width * 0.02,
+                            ),
+                            TextButton(
+                              child: Text(
+                                "Home",
+                                style: AppStyles.smallTitle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.white),
+                              ),
+                              onPressed: (){},
+                            ),
+                          ],
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.favorite_border,
+                              color: AppColors.white,
+                            ),
+                            SizedBox(
+                              width: size.width * 0.02,
+                            ),
+                            TextButton(
+                              child: Text(
+                                "Favorites",
+                                style: AppStyles.smallTitle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.white),
+                              ),
+                              onPressed: (){},
+                            ),
+                          ],
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.message_sharp,
+                              color: AppColors.white,
+                            ),
+                            SizedBox(
+                              width: size.width * 0.02,
+                            ),
+                            TextButton(
+                              child: Text(
+                                "Messages",
+                                style: AppStyles.smallTitle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.white),
+                              ),
+                              onPressed: (){},
+                            ),
+                          ],
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.notifications_none_rounded,
+                              color: AppColors.white,
+                            ),
+                            SizedBox(
+                              width: size.width * 0.02,
+                            ),
+                            TextButton(
+                              child: Text(
+                                "Notifications",
+                                style: AppStyles.smallTitle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.white),
+                              ),
+                              onPressed: (){},
+                            ),
+                          ],
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.manage_search,
+                              color: AppColors.white,
+                            ),
+                            SizedBox(
+                              width: size.width * 0.02,
+                            ),
+                            TextButton(
+                              child: Text(
+                                "Manage Listings",
+                                style: AppStyles.smallTitle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.white),
+                              ),
+                              onPressed: (){},
+                            ),
+                          ],
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.add_home_outlined,
+                              color: AppColors.white,
+                            ),
+                            SizedBox(
+                              width: size.width * 0.02,
+                            ),
+                            TextButton(
+                              child: Text(
+                                "Add New Property",
+                                style: AppStyles.smallTitle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.white),
+                              ),
+                              onPressed: (){},
+                            ),
+                          ],
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.settings,
+                              color: AppColors.white,
+                            ),
+                            SizedBox(
+                              width: size.width * 0.02,
+                            ),
+                            TextButton(
+                              child: Text(
+                                "Account Settings",
+                                style: AppStyles.smallTitle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.white),
+                              ),
+                              onPressed: (){
+                                Get.offAllNamed("/profile" );
+                              },
+                            ),
+                          ],
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.contact_support_rounded,
+                              color: AppColors.white,
+                            ),
+                            SizedBox(
+                              width: size.width * 0.02,
+                            ),
+                            TextButton(
+                              child: Text(
+                                "Support",
+                                style: AppStyles.smallTitle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.white),
+                              ),
+                              onPressed: (){},
+                    
+                            ),
+                          ],
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.privacy_tip_outlined,
+                              color: AppColors.white,
+                            ),
+                            SizedBox(
+                              width: size.width * 0.02,
+                            ),
+                            TextButton(
+                              child: Text(
+                                "Terms and Privacy",
+                                style: AppStyles.smallTitle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.white),
+                              ),
+                              onPressed: (){},
+                            ),
+                          ],
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.attach_money,
+                              color: AppColors.white,
+                            ),
+                            SizedBox(
+                              width: size.width * 0.02,
+                            ),
+                            TextButton(
+                              child: Text(
+                                "Rent Affordability Calculator",
+                                style: AppStyles.smallTitle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.white),
+                              ),
+                              onPressed: (){},
+                            ),
+                          ],
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.star_rate_outlined,
+                              color: AppColors.white,
+                            ),
+                            SizedBox(
+                              width: size.width * 0.02,
+                            ),
+                            TextButton(
+                              child: Text(
+                                "Rate the App",
+                                style: AppStyles.smallTitle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.white),
+                              ),
+                              onPressed: (){},
+                            ),
+                          ],
+                        ),
+                        SizedBox(height : size.height * 0.04,),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.logout,
+                              color: AppColors.white,
+                            ),
+                            TextButton(
+                              child: Text("Log out",
+                                style: AppStyles.smallTitle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.white),
+                              ),
+                              onPressed: () {
+                                context.read<LogOutCubit>().logOut();
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      width: size.width * 0.02,
-                    ),
-                    TextButton(
-                      child: Text(
-                        "Home",
-                        style: AppStyles.smallTitle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.white),
-                      ),
-                      onPressed: (){},
-                    ),
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.favorite_border,
-                      color: AppColors.white,
-                    ),
-                    SizedBox(
-                      width: size.width * 0.02,
-                    ),
-                    TextButton(
-                      child: Text(
-                        "Favorites",
-                        style: AppStyles.smallTitle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.white),
-                      ),
-                      onPressed: (){},
-                    ),
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.message_sharp,
-                      color: AppColors.white,
-                    ),
-                    SizedBox(
-                      width: size.width * 0.02,
-                    ),
-                    TextButton(
-                      child: Text(
-                        "Messages",
-                        style: AppStyles.smallTitle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.white),
-                      ),
-                      onPressed: (){},
-                    ),
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.notifications_none_rounded,
-                      color: AppColors.white,
-                    ),
-                    SizedBox(
-                      width: size.width * 0.02,
-                    ),
-                    TextButton(
-                      child: Text(
-                        "Notifications",
-                        style: AppStyles.smallTitle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.white),
-                      ),
-                      onPressed: (){},
-                    ),
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.manage_search,
-                      color: AppColors.white,
-                    ),
-                    SizedBox(
-                      width: size.width * 0.02,
-                    ),
-                    TextButton(
-                      child: Text(
-                        "Manage Listings",
-                        style: AppStyles.smallTitle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.white),
-                      ),
-                      onPressed: (){},
-                    ),
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.add_home_outlined,
-                      color: AppColors.white,
-                    ),
-                    SizedBox(
-                      width: size.width * 0.02,
-                    ),
-                    TextButton(
-                      child: Text(
-                        "Add New Property",
-                        style: AppStyles.smallTitle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.white),
-                      ),
-                      onPressed: (){},
-                    ),
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.settings,
-                      color: AppColors.white,
-                    ),
-                    SizedBox(
-                      width: size.width * 0.02,
-                    ),
-                    TextButton(
-                      child: Text(
-                        "Account Settings",
-                        style: AppStyles.smallTitle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.white),
-                      ),
-                      onPressed: (){
-                        Get.offAllNamed("/profile" );
-                      },
-                    ),
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.contact_support_rounded,
-                      color: AppColors.white,
-                    ),
-                    SizedBox(
-                      width: size.width * 0.02,
-                    ),
-                    TextButton(
-                      child: Text(
-                        "Support",
-                        style: AppStyles.smallTitle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.white),
-                      ),
-                      onPressed: (){},
+                  ),
+                )
 
-                    ),
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.privacy_tip_outlined,
-                      color: AppColors.white,
-                    ),
-                    SizedBox(
-                      width: size.width * 0.02,
-                    ),
-                    TextButton(
-                      child: Text(
-                        "Terms and Privacy",
-                        style: AppStyles.smallTitle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.white),
-                      ),
-                      onPressed: (){},
-                    ),
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.attach_money,
-                      color: AppColors.white,
-                    ),
-                    SizedBox(
-                      width: size.width * 0.02,
-                    ),
-                    TextButton(
-                      child: Text(
-                        "Rent Affordability Calculator",
-                        style: AppStyles.smallTitle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.white),
-                      ),
-                      onPressed: (){},
-                    ),
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.star_rate_outlined,
-                      color: AppColors.white,
-                    ),
-                    SizedBox(
-                      width: size.width * 0.02,
-                    ),
-                    TextButton(
-                      child: Text(
-                        "Rate the App",
-                        style: AppStyles.smallTitle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.white),
-                      ),
-                      onPressed: (){},
-                    ),
-                  ],
-                ),
-                SizedBox(height : size.height * 0.04,),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.logout,
-                      color: AppColors.white,
-                    ),
-                    TextButton(
-                      child: Text("Log out",
-                        style: AppStyles.smallTitle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.white),
-                      ),
-                      onPressed: () {
-                        context.read<LogOutCubit>().logOut();
-                      },
-                    ),
-                  ],
-                ),
               ],
             ),
           )),

@@ -75,7 +75,6 @@ class _HomeNavigatorScreenState extends State<HomeNavigatorScreen> {
           ],
           selectedIndex: _currentIndex,
           onTabChange: (index) {
-            print('Tab Changed: $index');
             setState(() {
               _currentIndex = index;
               _pageController.jumpToPage(index);
