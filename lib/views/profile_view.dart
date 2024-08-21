@@ -133,11 +133,31 @@ class _ProfileViewState extends State<ProfileView> {
                     children: [
                       Column(
                         children: [
-                          CircleAvatar(
-                            radius: size.width*0.16,
-                            backgroundImage: profilePicture != null && profilePicture!.isNotEmpty
-                                ? NetworkImage(profilePicture!)
-                                : const NetworkImage("https://i.pinimg.com/736x/09/21/fc/0921fc87aa989330b8d403014bf4f340.jpg"),
+                          Stack(
+                            children:[
+                              CircleAvatar(
+                                radius: size.width*0.16,
+                                backgroundImage: profilePicture != null && profilePicture!.isNotEmpty
+                                    ? NetworkImage(profilePicture!)
+                                    : const NetworkImage("https://i.pinimg.com/736x/09/21/fc/0921fc87aa989330b8d403014bf4f340.jpg"),
+                              ),
+                              Positioned(
+                                bottom: 0,
+                                right: 0,
+                                child: Container(
+                                  padding: EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.camera_alt,
+                                    size: 20,
+                                    color: Colors.grey[700],
+                                  ),
+                                ),
+                              ),
+                            ]
                           ),
                           Text(
                             "$firstName",
