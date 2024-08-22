@@ -84,7 +84,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: (myToken == null || JwtDecoder.isExpired(myToken!)) ? '/login' : '/home_screen',
+        initialRoute: (myToken == null || JwtDecoder.isExpired(myToken!)) ? '/login' : '/home',
         getPages: [
           get_package.GetPage(name: '/', page: () => SplashScreen()),
           get_package.GetPage(name: '/routing', page: () => RoutingScreen()),

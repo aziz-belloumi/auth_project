@@ -1,14 +1,11 @@
 import 'package:convergeimmob/authServices/bloc/log_out_cubit.dart';
 import 'package:convergeimmob/authServices/global_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_3d_controller/flutter_3d_controller.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:imageview360/imageview360.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:panorama_viewer/panorama_viewer.dart';
+import 'package:navbar_router/navbar_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:video_360/video_360.dart';
 import 'package:convergeimmob/constants/app_colors.dart';
 import 'package:convergeimmob/constants/app_styles.dart';
 import 'package:convergeimmob/shared/app_textfield.dart';
@@ -21,14 +18,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
-
   String? profilePicture;
-  String? email ;
-  String? firstName ;
+  String? email;
+  String? firstName;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _loadProfileData();
   }
@@ -40,20 +35,11 @@ class _HomeScreenState extends State<HomeScreen> {
       final decodedToken = JwtDecoder.decode(token);
       setState(() {
         profilePicture = decodedToken['profilePicture'];
-        email = decodedToken["email"] ;
+        email = decodedToken["email"];
         firstName = decodedToken["firstName"];
       });
     }
   }
-
-  Flutter3DController controller = Flutter3DController();
-
-  Video360Controller? video360Controller;
-
-  String durationText = '';
-
-  String totalText = '';
-
 
   @override
   Widget build(BuildContext context) {
@@ -63,32 +49,31 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         actions: [
           IconButton(
-            padding: EdgeInsets.symmetric(horizontal:size.width*0.05),
-              onPressed: (){},
-              icon: Icon(
-                Icons.notifications_none_outlined,
-                size: size.width * 0.07,
-              )
+            padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+            onPressed: () {},
+            icon: Icon(
+              Icons.notifications_none_outlined,
+              size: size.width * 0.07,
+            ),
           )
         ],
       ),
-      body: BlocListener<LogOutCubit,AuthState>(
-        listener: (context,state){
+      body: BlocListener<LogOutCubit, AuthState>(
+        listener: (context, state) {
           if (state is AuthLoading) {
             showDialog(
               context: context,
-              builder: (context) => const Center(child: CircularProgressIndicator()),
+              builder: (context) =>
+                  const Center(child: CircularProgressIndicator()),
             );
-          }
-          else if (state is AuthInitial) {
+          } else if (state is AuthInitial) {
             Get.offAllNamed('/login');
-          }
-          else if (state is AuthError) {
+          } else if (state is AuthError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.errorMessage)),
             );
           }
-          },
+        },
         child: Stack(
           children: [
             CustomScrollView(
@@ -160,13 +145,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         width: size.width * 0.5,
                                         height: size.height * 0.3,
                                         child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
                                           child: Image.asset(
                                             "assets/images/appart.jpg",
                                             fit: BoxFit.cover,
@@ -195,11 +182,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                             size: 16,
                                             color: AppColors.grey,
                                           ),
-                                          Text(
-                                            "4",
-                                            style: AppStyles.smallTitle(),
-                                          ),
-                                          // Icon(Icons.),
+                                          Text("4",
+                                              style: AppStyles.smallTitle()),
                                           Text("hb",
                                               style: AppStyles.smallTitle()),
                                         ],
@@ -288,10 +272,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     size: 16,
                                     color: AppColors.grey,
                                   ),
-                                  Text(
-                                    "4",
-                                    style: AppStyles.smallTitle(),
-                                  ),
+                                  Text("4", style: AppStyles.smallTitle()),
                                   Text("hb", style: AppStyles.smallTitle()),
                                 ],
                               ),
@@ -334,30 +315,33 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             Positioned(
-                bottom: 0,
-                left: size.width * 0.3,
-                right: size.width * 0.3,
-                child: ElevatedButton(
-                    onPressed: () {
-                      Get.toNamed("map_screen");
-                    },
-                    style: const ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(
-                            AppColors.bluePrimaryHigher)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        const Icon(
-                          Icons.map_outlined,
-                          color: AppColors.white,
-                        ),
-                        Text(
-                          "Map View",
-                          style: AppStyles.smallTitleWhite(
-                              fontSize: size.width * 0.038),
-                        ),
-                      ],
-                    )))
+              bottom: 60,
+              left: size.width * 0.3,
+              right: size.width * 0.3,
+              child: ElevatedButton(
+                onPressed: () {
+                  Get.toNamed("map_screen");
+                },
+                style: const ButtonStyle(
+                  backgroundColor:
+                      MaterialStatePropertyAll(AppColors.bluePrimaryHigher),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const Icon(
+                      Icons.map_outlined,
+                      color: AppColors.white,
+                    ),
+                    Text(
+                      "Map View",
+                      style: AppStyles.smallTitleWhite(
+                          fontSize: size.width * 0.038),
+                    ),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -379,313 +363,323 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      padding: EdgeInsets.all(size.width*0.006),
+                      padding: EdgeInsets.all(size.width * 0.006),
                       decoration: BoxDecoration(
-                          borderRadius:BorderRadius.circular(100), 
-                          color: Colors.white
-                      ),
+                          borderRadius: BorderRadius.circular(100),
+                          color: Colors.white),
                       child: CircleAvatar(
                         radius: 30,
-                        backgroundImage: profilePicture != null && profilePicture!.isNotEmpty
+                        backgroundImage: profilePicture != null &&
+                                profilePicture!.isNotEmpty
                             ? NetworkImage(profilePicture!)
-                            : const NetworkImage("https://i.pinimg.com/736x/09/21/fc/0921fc87aa989330b8d403014bf4f340.jpg"),
+                            : const NetworkImage(
+                                "https://i.pinimg.com/736x/09/21/fc/0921fc87aa989330b8d403014bf4f340.jpg"),
                       ),
                     ),
-                    SizedBox(width: size.width * 0.04,),
+                    SizedBox(
+                      width: size.width * 0.04,
+                    ),
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start ,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "$firstName",
-                        style: const TextStyle(color: AppColors.white,fontSize:16 , fontWeight: FontWeight.w500),
+                          style: const TextStyle(
+                              color: AppColors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500),
                         ),
                         Text(
                           "$email",
-                          style: const TextStyle(color: AppColors.white , fontSize:13),
+                          style: const TextStyle(
+                              color: AppColors.white, fontSize: 13),
                         ),
                       ],
                     ),
                   ],
                 ),
-                SizedBox(height : size.height * 0.03,),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
+                SizedBox(
+                  height: size.height * 0.03,
+                ),
+                Column(
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.home_outlined,
-                              color: AppColors.white,
-                            ),
-                            SizedBox(
-                              width: size.width * 0.02,
-                            ),
-                            TextButton(
-                              child: Text(
-                                "Home",
-                                style: AppStyles.smallTitle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.white),
-                              ),
-                              onPressed: (){},
-                            ),
-                          ],
+                        const Icon(
+                          Icons.home_outlined,
+                          color: AppColors.white,
                         ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.favorite_border,
-                              color: AppColors.white,
-                            ),
-                            SizedBox(
-                              width: size.width * 0.02,
-                            ),
-                            TextButton(
-                              child: Text(
-                                "Favorites",
-                                style: AppStyles.smallTitle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.white),
-                              ),
-                              onPressed: (){},
-                            ),
-                          ],
+                        SizedBox(
+                          width: size.width * 0.02,
                         ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.message_sharp,
-                              color: AppColors.white,
-                            ),
-                            SizedBox(
-                              width: size.width * 0.02,
-                            ),
-                            TextButton(
-                              child: Text(
-                                "Messages",
-                                style: AppStyles.smallTitle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.white),
-                              ),
-                              onPressed: (){},
-                            ),
-                          ],
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.notifications_none_rounded,
-                              color: AppColors.white,
-                            ),
-                            SizedBox(
-                              width: size.width * 0.02,
-                            ),
-                            TextButton(
-                              child: Text(
-                                "Notifications",
-                                style: AppStyles.smallTitle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.white),
-                              ),
-                              onPressed: (){},
-                            ),
-                          ],
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.manage_search,
-                              color: AppColors.white,
-                            ),
-                            SizedBox(
-                              width: size.width * 0.02,
-                            ),
-                            TextButton(
-                              child: Text(
-                                "Manage Listings",
-                                style: AppStyles.smallTitle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.white),
-                              ),
-                              onPressed: (){},
-                            ),
-                          ],
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.add_home_outlined,
-                              color: AppColors.white,
-                            ),
-                            SizedBox(
-                              width: size.width * 0.02,
-                            ),
-                            TextButton(
-                              child: Text(
-                                "Add New Property",
-                                style: AppStyles.smallTitle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.white),
-                              ),
-                              onPressed: (){},
-                            ),
-                          ],
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.settings,
-                              color: AppColors.white,
-                            ),
-                            SizedBox(
-                              width: size.width * 0.02,
-                            ),
-                            TextButton(
-                              child: Text(
-                                "Account Settings",
-                                style: AppStyles.smallTitle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.white),
-                              ),
-                              onPressed: (){
-                                Get.offAllNamed("/profile" );
-                              },
-                            ),
-                          ],
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.contact_support_rounded,
-                              color: AppColors.white,
-                            ),
-                            SizedBox(
-                              width: size.width * 0.02,
-                            ),
-                            TextButton(
-                              child: Text(
-                                "Support",
-                                style: AppStyles.smallTitle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.white),
-                              ),
-                              onPressed: (){},
-                    
-                            ),
-                          ],
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.privacy_tip_outlined,
-                              color: AppColors.white,
-                            ),
-                            SizedBox(
-                              width: size.width * 0.02,
-                            ),
-                            TextButton(
-                              child: Text(
-                                "Terms and Privacy",
-                                style: AppStyles.smallTitle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.white),
-                              ),
-                              onPressed: (){},
-                            ),
-                          ],
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.attach_money,
-                              color: AppColors.white,
-                            ),
-                            SizedBox(
-                              width: size.width * 0.02,
-                            ),
-                            TextButton(
-                              child: Text(
-                                "Rent Affordability Calculator",
-                                style: AppStyles.smallTitle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.white),
-                              ),
-                              onPressed: (){},
-                            ),
-                          ],
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.star_rate_outlined,
-                              color: AppColors.white,
-                            ),
-                            SizedBox(
-                              width: size.width * 0.02,
-                            ),
-                            TextButton(
-                              child: Text(
-                                "Rate the App",
-                                style: AppStyles.smallTitle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.white),
-                              ),
-                              onPressed: (){},
-                            ),
-                          ],
-                        ),
-                        SizedBox(height : size.height * 0.04,),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.logout,
-                              color: AppColors.white,
-                            ),
-                            TextButton(
-                              child: Text("Log out",
-                                style: AppStyles.smallTitle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.white),
-                              ),
-                              onPressed: () {
-                                context.read<LogOutCubit>().logOut();
-                              },
-                            ),
-                          ],
+                        TextButton(
+                          child: Text(
+                            "Home",
+                            style: AppStyles.smallTitle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.white),
+                          ),
+                          onPressed: () {},
                         ),
                       ],
                     ),
-                  ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.favorite_border,
+                          color: AppColors.white,
+                        ),
+                        SizedBox(
+                          width: size.width * 0.02,
+                        ),
+                        TextButton(
+                          child: Text(
+                            "Favorites",
+                            style: AppStyles.smallTitle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.white),
+                          ),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.message_sharp,
+                          color: AppColors.white,
+                        ),
+                        SizedBox(
+                          width: size.width * 0.02,
+                        ),
+                        TextButton(
+                          child: Text(
+                            "Messages",
+                            style: AppStyles.smallTitle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.white),
+                          ),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.notifications_none_rounded,
+                          color: AppColors.white,
+                        ),
+                        SizedBox(
+                          width: size.width * 0.02,
+                        ),
+                        TextButton(
+                          child: Text(
+                            "Notifications",
+                            style: AppStyles.smallTitle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.white),
+                          ),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.manage_search,
+                          color: AppColors.white,
+                        ),
+                        SizedBox(
+                          width: size.width * 0.02,
+                        ),
+                        TextButton(
+                          child: Text(
+                            "Manage Listings",
+                            style: AppStyles.smallTitle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.white),
+                          ),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.add_home_outlined,
+                          color: AppColors.white,
+                        ),
+                        SizedBox(
+                          width: size.width * 0.02,
+                        ),
+                        TextButton(
+                          child: Text(
+                            "Add New Property",
+                            style: AppStyles.smallTitle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.white),
+                          ),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.settings,
+                          color: AppColors.white,
+                        ),
+                        SizedBox(
+                          width: size.width * 0.02,
+                        ),
+                        TextButton(
+                          child: Text(
+                            "Account Settings",
+                            style: AppStyles.smallTitle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.white),
+                          ),
+                          onPressed: () {
+                            Get.offAllNamed("/profile");
+                          },
+                        ),
+                      ],
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.contact_support_rounded,
+                          color: AppColors.white,
+                        ),
+                        SizedBox(
+                          width: size.width * 0.02,
+                        ),
+                        TextButton(
+                          child: Text(
+                            "Support",
+                            style: AppStyles.smallTitle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.white),
+                          ),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.privacy_tip_outlined,
+                          color: AppColors.white,
+                        ),
+                        SizedBox(
+                          width: size.width * 0.02,
+                        ),
+                        TextButton(
+                          child: Text(
+                            "Terms and Privacy",
+                            style: AppStyles.smallTitle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.white),
+                          ),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.attach_money,
+                          color: AppColors.white,
+                        ),
+                        SizedBox(
+                          width: size.width * 0.02,
+                        ),
+                        TextButton(
+                          child: Text(
+                            "Rent Affordability Calculator",
+                            style: AppStyles.smallTitle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.white),
+                          ),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.star_rate_outlined,
+                          color: AppColors.white,
+                        ),
+                        SizedBox(
+                          width: size.width * 0.02,
+                        ),
+                        TextButton(
+                          child: Text(
+                            "Rate the App",
+                            style: AppStyles.smallTitle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.white),
+                          ),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: size.height * 0.04,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.logout,
+                          color: AppColors.white,
+                        ),
+                        TextButton(
+                          child: Text(
+                            "Log out",
+                            style: AppStyles.smallTitle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.white),
+                          ),
+                          onPressed: () {
+                            context.read<LogOutCubit>().logOut();
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
                 )
-
               ],
             ),
           )),
+      // Add a callback to control the visibility of the bottom navigation bar
+      onDrawerChanged: (isOpen) {
+        NavbarNotifier.hideBottomNavBar = isOpen;
+      },
     );
   }
 }
