@@ -4,14 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:navbar_router/navbar_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:convergeimmob/constants/app_colors.dart';
 import 'package:convergeimmob/constants/app_styles.dart';
 import 'package:convergeimmob/shared/app_textfield.dart';
 
+
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+  final Function(bool) onDrawerChanged;
+  HomeScreen({super.key, required this.onDrawerChanged});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -315,7 +316,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             Positioned(
-              bottom: 60,
+              bottom: 0,
               left: size.width * 0.3,
               right: size.width * 0.3,
               child: ElevatedButton(
@@ -353,8 +354,9 @@ class _HomeScreenState extends State<HomeScreen> {
         child: const Icon(Icons.add, color: AppColors.white),
       ),
       drawer: Drawer(
+
           backgroundColor: AppColors.bluebgNavItem,
-          clipBehavior: Clip.antiAlias,
+          clipBehavior: Clip.none,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 64),
             child: Column(
@@ -678,7 +680,7 @@ class _HomeScreenState extends State<HomeScreen> {
           )),
       // Add a callback to control the visibility of the bottom navigation bar
       onDrawerChanged: (isOpen) {
-        NavbarNotifier.hideBottomNavBar = isOpen;
+        widget.onDrawerChanged(isOpen);
       },
     );
   }

@@ -109,7 +109,7 @@ class MyApp extends StatelessWidget {
           get_package.GetPage(name: '/view360_screen', page: () => Image360Screen()),
           get_package.GetPage(name: '/filter_screen', page: () => FilterScreen()),
           get_package.GetPage(name: '/create_property', page: () => CreatePropertyScreen()),
-          get_package.GetPage(name: '/home_screen', page: () => HomeScreen()),
+          get_package.GetPage(name: '/home_screen', page: () => HomeScreen(onDrawerChanged: (isOpen) {})),
           get_package.GetPage(name: '/forgot_password', page: () => ForgotPassword()),
           get_package.GetPage(name: '/forgot_password_code', page: () => ForgotPasswordCode()),
           get_package.GetPage(name: '/reset_password', page: () => ResetYourPassword()),

@@ -1,9 +1,8 @@
+import 'package:convergeimmob/constants/app_colors.dart';
 import 'package:convergeimmob/favorite_view.dart';
-import 'package:convergeimmob/home_screen.dart';
 import 'package:convergeimmob/message_view.dart';
-import 'package:convergeimmob/views/profile_view.dart';
 import 'package:flutter/material.dart';
-import 'package:navbar_router/navbar_router.dart';
+import 'package:convergeimmob/home_screen.dart';
 
 class HomeNavigatorScreen extends StatefulWidget {
   const HomeNavigatorScreen({super.key});
@@ -13,89 +12,103 @@ class HomeNavigatorScreen extends StatefulWidget {
 }
 
 class _HomeNavigatorScreenState extends State<HomeNavigatorScreen> {
+  int _currentIndex = 0;
+  bool _isNavBarVisible = true;
 
-  List<NavbarItem> items = [
-    const NavbarItem(Icons.home_outlined, 'Home',
-        backgroundColor: mediumPurple,
-        selectedIcon: Icon(
-          Icons.home,
-          size: 26,
-        )),
-    const NavbarItem(Icons.favorite, 'Favorite',
-        backgroundColor: mediumPurple,
-        selectedIcon: Icon(
-          Icons.favorite,
-          size: 26,
-        )),
-    const NavbarItem(Icons.message, 'message',
-        backgroundColor: mediumPurple,
-        selectedIcon: Icon(
-          Icons.message,
-          size: 26,
-        )),
-  ];
+  final PageController _pageController = PageController(initialPage: 0);
+  late final List<Widget> _pages;
 
-  final Map<int, Map<String, Widget>> _routes = {
-    0: {
-      '/home_screen': HomeScreen(),
-    },
-    1: {
-      '/favorite': const FavoriteView(),
-    },
-    2: {
-      '/message': const MessageView(),
-    },
-  };
+  @override
+  void initState() {
+    super.initState();
+    _pages = [
+      HomeScreen(onDrawerChanged: (isOpen) => _onDrawerChanged(isOpen)),
+      const MessageView(),
+      const FavoriteView(),
+    ];
+  }
+  void _onDrawerChanged(bool isOpen) {
+    if (isOpen) {
+      setState(() {
+        _isNavBarVisible = false;
+      });
+    } else {
+      // Introduce a delay before making the BottomNavigationBar reappear
+      Future.delayed(const Duration(milliseconds: 200), () {
+        if(mounted) {
+          setState(() {
+            _isNavBarVisible = true;
+          });
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return NavbarRouter(
-      errorBuilder: (context) {
-        return const HomeNavigatorScreen();
-      },
-      onBackButtonPressed: (isExiting) {
-        return isExiting;
-      },
-      destinationAnimationCurve: Curves.fastOutSlowIn,
-      destinationAnimationDuration: 600,
-      decoration:
-      NavbarDecoration(navbarType: BottomNavigationBarType.shifting),
-      destinations: [
-        for (int i = 0; i < items.length; i++)
-          DestinationRouter(
-            navbarItem: items[i],
-            destinations: [
-              for (int j = 0; j < _routes[i]!.keys.length; j++)
-                Destination(
-                  route: _routes[i]!.keys.elementAt(j),
-                  widget: _routes[i]!.values.elementAt(j),
-                ),
-            ],
-            initialRoute: _routes[i]!.keys.first,
+    Size size = MediaQuery.of(context).size ;
+    return Scaffold(
+      body: PageView(
+        controller: _pageController,
+        physics: const AlwaysScrollableScrollPhysics(),
+        children: _pages,
+        onPageChanged: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+      ),
+      bottomNavigationBar: _isNavBarVisible
+          ? BottomNavigationBar(
+        selectedItemColor: AppColors.bluebgNavItem,
+        unselectedItemColor: AppColors.black,
+        unselectedLabelStyle: TextStyle(
+          color: AppColors.black,
+          fontWeight: FontWeight.w500,
+          fontSize: size.height * 0.017,
+        ),
+        selectedLabelStyle: TextStyle(
+          color: AppColors.bluebgNavItem,
+          fontWeight: FontWeight.w500,
+          fontSize: size.height * 0.017,
+        ),
+        backgroundColor: AppColors.gNavBgColor,
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          _pageController.animateToPage(
+              index,
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInOut
+          );
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.home_outlined,
+              size: size.height * 0.035,
+            ),
+            label: 'Home',
           ),
-      ],
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.message_outlined,
+              size: size.height * 0.035,
+            ),
+            label: 'message',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.favorite,
+              size: size.height * 0.035,
+            ),
+            label: 'favorite',
+          ),
+        ],
+      )
+          : const SizedBox.shrink(), // Hide the BottomNavigationBar when not visible
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
