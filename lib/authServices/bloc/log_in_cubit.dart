@@ -27,10 +27,10 @@ class LogInCubit extends Cubit<AuthState>{
         await prefs.setString('token', myToken);// storing the token in preferences
         emit(AuthSuccess());
       }
-      if (response.statusCode == 404) {
+      else if (response.statusCode == 404) {
         emit(AuthError('Error : This account doesn\'t exists'));
       }
-      if (response.statusCode == 401) {
+      else if (response.statusCode == 401) {
         emit(AuthError('Error : Wrong password , try again'));
       }
     }

@@ -20,7 +20,13 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
 
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+
   String? firstName ;
+  String? lastName ;
   String? email ;
   String? profilePicture ;
   int? phoneNumber ;
@@ -41,6 +47,7 @@ class _ProfileViewState extends State<ProfileView> {
         profilePicture = decodedToken['profilePicture'];
         email = decodedToken["email"] ;
         firstName = decodedToken["firstName"];
+        lastName = decodedToken["lastName"];
         phoneNumber = decodedToken["numTel"] ;
       });
     }
@@ -83,6 +90,44 @@ class _ProfileViewState extends State<ProfileView> {
       catch (e) {
         print('Error: $e');
       }
+    }
+  }
+
+
+  Future<void> _editInfo(String oldEmail, String? newEmail,String? firstName, String? lastName, int? numTel) async {
+    try{
+      var reqBody = {
+        "oldEmail": oldEmail,
+        "newEmail": newEmail,
+        "firstName": firstName ,
+        "lastName": lastName ,
+        "numTel": numTel
+      };
+      var response = await http.post(
+          Uri.parse("http://10.0.2.2:4050/api/userData/edit-data"),
+          headers: { "Content-Type": "application/json"},
+          body: jsonEncode(reqBody)
+      );
+      if (response.statusCode == 200) {
+        final prefs = await SharedPreferences.getInstance();
+        var jsonResponse = jsonDecode(response.body);
+        var myToken = jsonEncode({
+          "token" : jsonResponse["token"],
+        });
+        if (JwtDecoder.isExpired(myToken) == false) {
+          final decodedToken = JwtDecoder.decode(myToken);
+          setState(() {
+            this.email = decodedToken["email"] ;
+            this.firstName = decodedToken["firstName"];
+            this.lastName = decodedToken["lastName"];
+            this.phoneNumber = decodedToken["numTel"] ;
+          });
+          await prefs.setString('token', myToken);
+        }
+      }
+    }
+    catch(e){
+      print(e);
     }
   }
 
@@ -133,31 +178,36 @@ class _ProfileViewState extends State<ProfileView> {
                     children: [
                       Column(
                         children: [
-                          Stack(
-                            children:[
-                              CircleAvatar(
-                                radius: size.width*0.16,
-                                backgroundImage: profilePicture != null && profilePicture!.isNotEmpty
-                                    ? NetworkImage(profilePicture!)
-                                    : const NetworkImage("https://i.pinimg.com/736x/09/21/fc/0921fc87aa989330b8d403014bf4f340.jpg"),
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                right: 0,
-                                child: Container(
-                                  padding: EdgeInsets.all(5),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Icon(
-                                    Icons.camera_alt,
-                                    size: 20,
-                                    color: Colors.grey[700],
+                          GestureDetector(
+                            child: Stack(
+                              children:[
+                                CircleAvatar(
+                                  radius: size.width*0.16,
+                                  backgroundImage: profilePicture != null && profilePicture!.isNotEmpty
+                                      ? NetworkImage(profilePicture!)
+                                      : const NetworkImage("https://i.pinimg.com/736x/09/21/fc/0921fc87aa989330b8d403014bf4f340.jpg"),
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  child: Container(
+                                    padding: EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      Icons.camera_alt,
+                                      size: 20,
+                                      color: Colors.grey[700],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ]
+                              ]
+                            ),
+                            onLongPress: (){
+                              _changeProfilePicture();
+                            },
                           ),
                           Text(
                             "$firstName",
@@ -183,16 +233,25 @@ class _ProfileViewState extends State<ProfileView> {
                           decoration: InputDecoration(
                             hintText: "$firstName"
                           ),
+                          controller: firstNameController,
+                        ),
+                        TextFormField(
+                          decoration: InputDecoration(
+                              hintText: "$lastName"
+                          ),
+                          controller: lastNameController,
                         ),
                         TextFormField(
                           decoration: InputDecoration(
                               hintText: "$email"
                           ),
+                          controller: emailController,
                         ),
                         TextFormField(
                           decoration: InputDecoration(
                               hintText: "$phoneNumber"
                           ),
+                          controller: phoneController,
                         ),
                       ],
                     ),
@@ -214,29 +273,13 @@ class _ProfileViewState extends State<ProfileView> {
                         label: const Text(
                           "Edit Information", style: TextStyle(color: AppColors.bluebgNavItem),
                         ),
-                        onPressed:(){},
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: size.height * 0.02,),
-                  SizedBox(
-                    width: size.width ,
-                    child: Expanded(
-                      child: FloatingActionButton.extended(
-                        elevation: 0.0,
-                        backgroundColor: AppColors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                          side: BorderSide(
-                            color: AppColors.bluebgNavItem,
-                            width: size.width*0.005,
-                          ),
-                        ),
-                        label: const Text(
-                          "Change Profile Picture", style: TextStyle(color: AppColors.bluebgNavItem),
-                        ),
                         onPressed:(){
-                          _changeProfilePicture();
+                          _editInfo(
+                              email!, emailController.text.isNotEmpty ? emailController.text : this.email ,
+                              firstNameController.text.isNotEmpty ? firstNameController.text : this.firstName,
+                              lastNameController.text.isNotEmpty ? lastNameController.text : this.lastName,
+                              phoneController.text.isNotEmpty ? int.parse(phoneController.text) : this.phoneNumber
+                          );
                         },
                       ),
                     ),
