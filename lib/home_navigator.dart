@@ -64,13 +64,13 @@ class _HomeNavigatorScreenState extends State<HomeNavigatorScreen> {
         unselectedItemColor: AppColors.black,
         unselectedLabelStyle: TextStyle(
           color: AppColors.black,
-          fontWeight: FontWeight.w500,
-          fontSize: size.height * 0.017,
+          fontWeight: FontWeight.w400,
+          fontSize: size.height * 0.016,
         ),
         selectedLabelStyle: TextStyle(
           color: AppColors.bluebgNavItem,
-          fontWeight: FontWeight.w500,
-          fontSize: size.height * 0.017,
+          fontWeight: FontWeight.w400,
+          fontSize: size.height * 0.016,
         ),
         backgroundColor: AppColors.gNavBgColor,
         currentIndex: _currentIndex,

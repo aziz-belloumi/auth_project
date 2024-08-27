@@ -19,6 +19,7 @@ import 'package:convergeimmob/views/forgot_password.dart';
 import 'package:convergeimmob/views/log_in.dart';
 import 'package:convergeimmob/views/other_sign_in_data.dart';
 import 'package:convergeimmob/views/otp_verification.dart';
+import 'package:convergeimmob/views/private_message_view.dart';
 import 'package:convergeimmob/views/profile_view.dart';
 import 'package:convergeimmob/views/reset_your_password.dart';
 import 'package:convergeimmob/views/select_contact.dart';
@@ -115,6 +116,7 @@ class MyApp extends StatelessWidget {
           get_package.GetPage(name: '/reset_password', page: () => ResetYourPassword()),
           get_package.GetPage(name: '/profile', page: () => ProfileView()),
           get_package.GetPage(name: '/contact', page: () => SelectContact()),
+          get_package.GetPage(name: '/private_message', page: () => PrivateMessageView()),
         ],
       ),
     );
