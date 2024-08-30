@@ -59,6 +59,7 @@ dependencies:
   flutter_facebook_auth: ^7.0.1
   dart_jsonwebtoken: ^2.14.0
   image_picker: ^1.1.2
+  socket_io_client: ^2.0.3+1
 dev_dependencies:
   flutter_test:
     sdk: flutter

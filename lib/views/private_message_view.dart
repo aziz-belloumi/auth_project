@@ -2,6 +2,7 @@ import 'package:convergeimmob/shared/reply_card.dart';
 import 'package:convergeimmob/shared/send_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class PrivateMessageView extends StatefulWidget {
   const PrivateMessageView({super.key});
@@ -11,7 +12,36 @@ class PrivateMessageView extends StatefulWidget {
 }
 
 class _PrivateMessageViewState extends State<PrivateMessageView> {
+  String? profilePicture = Get.arguments["profilePicture"];
+  String? firstName = Get.arguments["firstName"] ;
+  String? destinationId = Get.arguments["destinationId"] ;
+  String? sourceId = Get.arguments["sourceId"] ;
   final TextEditingController _messageController = TextEditingController();
+  late IO.Socket socket ;
+
+  @override
+  void initState(){
+    super.initState() ;
+    connect() ;
+  }
+
+  void connect(){
+    socket = IO.io("http://10.0.2.2:4050" , <String , dynamic> {
+      "transports" : ["websocket"] ,
+      "autoConnect" : false ,
+    });
+    socket.connect();
+    socket.emit("start_conversation" , {'destinationId' : destinationId});
+    socket.onConnect((data){
+      socket.on('message' , (msg){
+        print(msg);
+      });
+    });
+  }
+
+  void sendMessage(String message , String destinationId , String sourceId){
+    socket.emit("message" , { 'message' : message , 'sourceId' : sourceId , 'destinationId' : destinationId});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +50,20 @@ class _PrivateMessageViewState extends State<PrivateMessageView> {
       appBar: AppBar(
         title: Row(
           children: [
-            const CircleAvatar(),
+            CircleAvatar(
+              radius: 25,
+              backgroundImage: profilePicture != null && profilePicture!.isNotEmpty
+                  ? NetworkImage(profilePicture!)
+                  : const NetworkImage("https://i.pinimg.com/736x/09/21/fc/0921fc87aa989330b8d403014bf4f340.jpg"),
+            ),
             SizedBox(width: size.width * 0.04), // Add some spacing between the avatar and text
-            const Text("Name"),
+            Text(
+              "$firstName",
+              style: TextStyle(
+                fontSize: size.height * 0.02,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ],
         ),
       ),
@@ -36,12 +77,6 @@ class _PrivateMessageViewState extends State<PrivateMessageView> {
                 SendCard(),
                 ReplyCard(),
                 ReplyCard(),
-                SendCard(),
-                SendCard(),
-                ReplyCard(),
-                SendCard(),
-                SendCard(),
-
               ],
             ),
             Padding(
@@ -71,8 +106,10 @@ class _PrivateMessageViewState extends State<PrivateMessageView> {
                           suffixIcon: IconButton(
                             icon: const Icon(Icons.send),
                             onPressed: () {
-                              // other message logic for sending
-                              _messageController.clear();
+                              if(_messageController.text.isNotEmpty){
+                                sendMessage(_messageController.text, destinationId!, sourceId!);
+                                _messageController.clear();
+                              }
                             },
                           ),
                           contentPadding: EdgeInsets.symmetric(vertical: size.height * 0.01, horizontal:size.width * 0.03 ),
