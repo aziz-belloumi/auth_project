@@ -29,7 +29,7 @@ class _MessageViewState extends State<MessageView> with SingleTickerProviderStat
   Future<void> _getAllUsers() async {
     try{
       final response = await http.post(
-          Uri.parse("http://10.0.2.2:4050/api/userData/bring-allUsers"),
+          Uri.parse("http://192.168.54.133:4050/api/userData/bring-allUsers"),
           headers: {"Content-Type": "application/json"},
           body : jsonEncode({
             'id' : sourceId
@@ -136,7 +136,7 @@ class _MessageViewState extends State<MessageView> with SingleTickerProviderStat
                   final user = users[index];
                   return CustomBubble(
                     firstName: user['firstName'],
-                    profilePicture: user['profilePicture'],
+                    destinationProfilePicture: user['profilePicture'],
                     destinationId: user['_id'],
                     sourceId: sourceId,
                   );

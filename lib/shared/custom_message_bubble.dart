@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 
 class CustomBubble extends StatelessWidget {
   final String? firstName ;
-  final String? profilePicture ;
+  final String? destinationProfilePicture ;
   final String? destinationId ;
   final String? sourceId ;
-  const CustomBubble({super.key, required this.destinationId , required this.sourceId ,required this.firstName , required this.profilePicture});
+  const CustomBubble({super.key, required this.destinationId , required this.sourceId ,required this.firstName , required this.destinationProfilePicture});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class CustomBubble extends StatelessWidget {
     return GestureDetector(
       onTap: (){
         Get.toNamed('/private_message', arguments: {
-          "profilePicture" : profilePicture ,
+          "destinationProfilePicture" : destinationProfilePicture ,
           "firstName" : firstName ,
           "destinationId" : destinationId ,
           "sourceId" : sourceId
@@ -30,8 +30,8 @@ class CustomBubble extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: size.height * 0.035,
-                  backgroundImage: profilePicture != null && profilePicture!.isNotEmpty
-                      ? NetworkImage(profilePicture!)
+                  backgroundImage: destinationProfilePicture != null && destinationProfilePicture!.isNotEmpty
+                      ? NetworkImage(destinationProfilePicture!)
                       : const NetworkImage("https://i.pinimg.com/736x/09/21/fc/0921fc87aa989330b8d403014bf4f340.jpg"),
                 ),
               ],

@@ -2,8 +2,9 @@ import 'package:convergeimmob/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ReplyCard extends StatelessWidget {
-  const ReplyCard({super.key});
-
+  const ReplyCard({ required this.message , required this.destinationProfilePicture ,super.key});
+  final String? message ;
+  final String? destinationProfilePicture ;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -40,7 +41,7 @@ class ReplyCard extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: size.height * 0.01, horizontal: size.width * 0.035),
                           child: Text(
-                            "hello",
+                            message!,
                             style: TextStyle(
                                 fontSize: size.height * 0.02,
                                 fontWeight: FontWeight.w500,
@@ -57,8 +58,10 @@ class ReplyCard extends StatelessWidget {
               bottom: -10, // Adjust as needed
               left: 5, // Adjust as needed
               child: CircleAvatar(
-                radius: 10,
-                backgroundColor: Colors.red, // Customize as needed
+                radius: 9,
+                backgroundImage: destinationProfilePicture != null && destinationProfilePicture!.isNotEmpty
+                    ? NetworkImage(destinationProfilePicture!)
+                    : const NetworkImage("https://i.pinimg.com/736x/09/21/fc/0921fc87aa989330b8d403014bf4f340.jpg"),
               ),
             ),
           ],

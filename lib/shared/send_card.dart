@@ -2,8 +2,8 @@ import 'package:convergeimmob/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class SendCard extends StatelessWidget {
-  const SendCard({super.key});
-
+  const SendCard({required this.message ,super.key});
+  final String? message ;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -30,7 +30,7 @@ class SendCard extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: size.height * 0.01 , horizontal : size.width * 0.035),
                 child: Text(
-                  "?hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh",
+                  message!,
                   style: TextStyle(
                     fontSize: size.height * 0.02 ,
                     fontWeight: FontWeight.w500,

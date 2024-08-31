@@ -28,7 +28,7 @@ class GoogleCubit extends Cubit<AuthState> {
         final currentUser = auth.currentUser;
 
         final response = await http.post(
-          Uri.parse("http://10.0.2.2:4050/api/auth/google"),
+          Uri.parse("http://192.168.54.133:4050/api/auth/google"),
           headers: { "Content-Type": "application/json"},
           body: jsonEncode({
             'email': currentUser?.email ?? '',
